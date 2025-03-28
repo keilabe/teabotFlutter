@@ -1,0 +1,2 @@
+C:/Users/HP/OneDrive/Desktop/FlutterMasterClass/teabot/android/app/.cxx/Debug/2j5jc1p5/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/HP/OneDrive/Desktop/FlutterMasterClass/teabot/android/app/.cxx/Debug/2j5jc1p5/armeabi-v7a/CMakeFiles/rebuild_cache.dir
