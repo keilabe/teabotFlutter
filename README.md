@@ -30,3 +30,53 @@ flowchart TD
     class C,D,E,J,K,M feature;
     class F,G,H ml;
     class I,L firebase;
+
+graph TD;
+    A[User Authentication] --> B[Firebase Authentication]
+    B --> C[User Access Granted]
+    C -->|Success| D[Navigate to Dashboard]
+    C -->|Failure| E[Show Error & Retry]
+    
+    %% Styling
+    classDef auth fill:#4CAF50,stroke:#388E3C;
+    class A,B,C auth;
+
+---
+
+graph TD;
+    A[Image Processing] --> B[Image Compression]
+    B --> C[TFLite Model Classification]
+    C --> D[Tea Type or Disease Identified]
+    D --> E[Save to Firestore]
+    E --> F[Update User Consumption Stats]
+    D --> G[Prompt Chatbot for Disease Info]
+    G --> H[Chatbot Provides Symptoms & Curatives]
+    
+    %% Styling
+    classDef processing fill:#9C27B0,stroke:#7B1FA2;
+    class A,B,C,D,E,F,G,H processing;
+
+---
+
+graph TD;
+    A[View Statistics] --> B[Retrieve Data from Firestore]
+    B --> C[Generate Daily/Weekly Trends]
+    C --> D[Render Statistics Charts]
+    D --> E[User Analyzes Trends]
+    
+    %% Styling
+    classDef stats fill:#2196F3,stroke:#1976D2;
+    class A,B,C,D,E stats;
+
+---
+
+graph TD;
+    A[User Profile Management] --> B[Edit Profile]
+    B --> C[Update Firestore Data]
+    A --> D[View Profile Information]
+    A --> E[Logout]
+    E --> F[Revoke Authentication & Navigate to Login]
+    
+    %% Styling
+    classDef profile fill:#FF5722,stroke:#E64A19;
+    class A,B,C,D,E,F profile;
