@@ -1,6 +1,7 @@
 # TeaBot - Smart Tea Companion App 🍵
 
 🔐 User Authentication & Navigation
+```
 flowchart TD
     A[User Login/Signup] --> B[Firebase Auth]
     B --> C[Dashboard]
