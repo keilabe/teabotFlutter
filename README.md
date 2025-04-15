@@ -2,8 +2,7 @@
 
 🔐 User Authentication & Navigation
 
-```
-mermaid
+```mermaid
 flowchart TD
     A[User Login/Signup] --> B[Firebase Auth]
     B --> C[Dashboard]
