@@ -11,6 +11,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'firebase_options.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'services/notification_service.dart';
+import 'services/location_service.dart';
 
 void main() async {
   try {
@@ -23,7 +27,7 @@ void main() async {
     
     // Initialize Firebase App Check
     await FirebaseAppCheck.instance.activate(
-      webProvider: ReCaptchaV3Provider('your-recaptcha-v3-site-key'),
+      webProvider: ReCaptchaV3Provider('6LcXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'),
       androidProvider: AndroidProvider.debug,
       appleProvider: AppleProvider.debug,
     );
@@ -39,6 +43,18 @@ void main() async {
         debugPrint('Warning: Firebase Storage initialization failed: $e');
       }
     });
+    
+    // Initialize Firebase Analytics
+    await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+    debugPrint('Firebase Analytics initialized');
+    
+    // Initialize Notification Service
+    await NotificationService.initialize();
+    debugPrint('Notification Service initialized');
+    
+    // Initialize Location Service
+    await LocationService.initialize();
+    debugPrint('Location Service initialized');
     
     debugPrint('Firebase initialized successfully');
     

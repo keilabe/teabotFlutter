@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'dart:math' as math;
 import 'disease_detection_interface.dart';
 import 'analytics_service.dart';
+import 'regional_analysis_service.dart';
 
 // TensorFlow Lite types
 const int float32 = 1;
@@ -98,6 +99,28 @@ class DiseaseDetectionService implements DiseaseDetectionInterface {
       
       debugPrint('Inference results:');
       debugPrint('- Label: ${bestDetection['disease']}');
+      
+      // Submit to regional analysis system
+      try {
+        await RegionalAnalysisService.submitFarmerReport(
+          disease: bestDetection['disease'],
+          confidence: bestDetection['confidence'],
+          imageUrl: imageUrl ?? '',
+          farmLocation: 'Unknown Location', // TODO: Get from GPS
+          latitude: 0.0, // TODO: Get from GPS
+          longitude: 0.0, // TODO: Get from GPS
+          cropType: 'tea',
+          affectedArea: 0.0,
+          additionalData: {
+            'detectionMethod': 'TFLite',
+            'modelVersion': '1.0',
+            'processingTime': DateTime.now().millisecondsSinceEpoch,
+          },
+        );
+        debugPrint('Successfully submitted to regional analysis');
+      } catch (e) {
+        debugPrint('Error submitting to regional analysis: $e');
+      }
       debugPrint('- Confidence: ${(bestDetection['confidence'] * 100).toStringAsFixed(1)}%');
       debugPrint('- Bbox: ${bestDetection['bbox']}');
 

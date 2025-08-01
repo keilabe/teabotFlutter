@@ -670,7 +670,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> with TickerProviderStateM
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.left(color: riskColor, width: 4),
+        border: Border(left:BorderSide(color: riskColor, width: 4),),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),

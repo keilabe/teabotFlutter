@@ -544,7 +544,7 @@ class _RegionalDashboardPageState extends State<RegionalDashboardPage>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.left(color: severityColor, width: 4),
+        border: Border(left: BorderSide(color: severityColor, width: 4),),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
