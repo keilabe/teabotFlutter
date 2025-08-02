@@ -1,0 +1,13 @@
+{
+  "name": "teabotflutter",
+  "version": "1.0.0",
+  "description": "TeaBot Flutter Web App",
+  "scripts": {
+    "update-firebase-config": "node scripts/update-firebase-config.js",
+    "build-web": "flutter build web && npm run update-firebase-config",
+    "deploy": "npm run build-web && firebase deploy"
+  },
+  "keywords": ["flutter", "firebase", "web"],
+  "author": "",
+  "license": "ISC"
+} 
