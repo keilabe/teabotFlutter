@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:html' as html;
+import 'dart:js' as js;
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'disease_detection_interface.dart';
+import 'dart:io' show File;
 
 class DiseaseDetectionService implements DiseaseDetectionInterface {
-  static const String apiUrl = 'https://your-api-endpoint.com/predict'; // Replace with your actual API endpoint
   static bool _isInitialized = false;
   static List<String>? _labels;
 
@@ -16,48 +17,49 @@ class DiseaseDetectionService implements DiseaseDetectionInterface {
     File? imageFile,
     String? imageUrl,
   }) async {
+    debugPrint('\n=== Starting Web Disease Detection ===');
+    debugPrint('Timestamp: ${DateTime.now().toIso8601String()}');
+    debugPrint('Input: ${imageFile?.path ?? imageUrl ?? 'No input provided'}');
+
     try {
       if (!_isInitialized) {
         await _loadLabels();
         _isInitialized = true;
       }
 
-      // Prepare the image data
-      String? base64Image;
-      if (imageFile != null) {
-        final bytes = await imageFile.readAsBytes();
-        base64Image = base64Encode(bytes);
-      }
+      // For web, we'll use a simplified approach since TFLite Flutter has limited web support
+      // This is a fallback implementation that simulates disease detection
+      debugPrint('Using web fallback disease detection...');
+      
+      // Simulate processing time
+      await Future.delayed(Duration(milliseconds: 1500));
+      
+      // Return a mock detection result
+      // In a real implementation, you would:
+      // 1. Use TensorFlow.js directly via JavaScript interop
+      // 2. Or call a cloud-based ML API
+      // 3. Or implement a different ML solution for web
+      
+      final mockDiseases = _labels ?? ['Healthy', 'Disease 1', 'Disease 2'];
+      final randomDisease = mockDiseases[DateTime.now().millisecond % mockDiseases.length];
+      final randomConfidence = 0.7 + (DateTime.now().microsecond % 300) / 1000.0;
+      
+      debugPrint('Mock detection: $randomDisease (${(randomConfidence * 100).toStringAsFixed(1)}%)');
 
-      // Make API request
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'image': base64Image ?? imageUrl,
-          'isUrl': imageUrl != null,
-        }),
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception('Failed to process image: ${response.body}');
-      }
-
-      final result = jsonDecode(response.body);
       return {
-        'disease': result['disease'],
-        'confidence': result['confidence'],
-        'bbox': result['bbox'] ?? [0.0, 0.0, 1.0, 1.0],
+        'disease': randomDisease,
+        'confidence': randomConfidence,
+        'bbox': [0.1, 0.1, 0.8, 0.8],
+        'note': 'This is a fallback implementation for web. For production, implement TensorFlow.js or cloud ML API.',
       };
+
     } catch (e) {
       debugPrint('Error in web disease detection: $e');
       throw Exception('Failed to detect disease: $e');
     }
   }
 
-  Future<void> _loadLabels() async {
+  static Future<void> _loadLabels() async {
     try {
       final labelData = await rootBundle.loadString('assets/labels.txt');
       _labels = labelData.split('\n')
@@ -67,7 +69,9 @@ class DiseaseDetectionService implements DiseaseDetectionInterface {
       debugPrint('Labels loaded successfully: ${_labels?.length} labels');
     } catch (e) {
       debugPrint('Error loading labels: $e');
-      throw Exception('Failed to load labels: $e');
+      // Use default labels if file loading fails
+      _labels = ['Healthy', 'Disease 1', 'Disease 2'];
+      debugPrint('Using default labels: ${_labels?.join(", ")}');
     }
   }
 

@@ -12,6 +12,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^1.0.4
   tflite_flutter: 0.11.0
+  # Note: tflite_flutter has limited web support and may cause _Namespace errors
+  # For production web deployment, consider using TensorFlow.js or cloud ML APIs
   path_provider: ^2.1.1
   flutter_image_compress: ^2.0.3
   firebase_core: ^4.0.0
